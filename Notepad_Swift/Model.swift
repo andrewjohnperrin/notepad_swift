@@ -16,19 +16,18 @@ class Model : NSObject
     var currentIndex:Int?
     var managedContext:NSManagedObjectContext?
     
-    
-    
     override init() {
         super.init()
-        print("model init")
         fetchNotes()
     }
     
     func fetchNotes(){
+        
         guard let appDelegate =
             UIApplication.shared.delegate as? AppDelegate else {
                 return
         }
+        
         managedContext = appDelegate.persistentContainer.viewContext
         
         let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Notes")
@@ -39,22 +38,21 @@ class Model : NSObject
         catch let error as NSError {
             print("Could not fetch. \(error), \(error.userInfo)")
         }
-        
     }
     
     func save(name: String) {
-        let entity = NSEntityDescription.entity(forEntityName: "Notes", in: managedContext!)!
         
+        let entity = NSEntityDescription.entity(forEntityName: "Notes", in: managedContext!)!
         let note = NSManagedObject(entity: entity,
                                    insertInto: managedContext)
-        
         note.setValue(name, forKeyPath: "name")
         note.setValue("Enter Note Here", forKeyPath: "note")
         
         do {
             try managedContext!.save()
             notes.append(note)
-        } catch let error as NSError {
+        }
+        catch let error as NSError {
             print("Could not save. \(error), \(error.userInfo)")
         }
     }
@@ -64,7 +62,8 @@ class Model : NSObject
         notes.remove(at: index)
         do {
             try managedContext!.save()
-        } catch let error as NSError {
+        }
+        catch let error as NSError {
             print("Could not save. \(error), \(error.userInfo)")
         }
     }
@@ -77,7 +76,6 @@ class Model : NSObject
             print("Could not save. \(error), \(error.userInfo)")
         }
     }
-    
 }
 
 
