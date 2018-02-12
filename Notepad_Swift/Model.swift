@@ -16,6 +16,7 @@ class Model : NSObject
     var currentIndex:Int?
     var managedContext:NSManagedObjectContext?
     
+    
     override init() {
         super.init()
         print("model init")

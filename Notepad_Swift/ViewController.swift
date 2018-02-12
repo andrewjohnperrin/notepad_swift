@@ -11,7 +11,6 @@ import CoreData
 
 class ViewController: UIViewController, UITableViewDelegate {
     @IBOutlet weak var tableView: UITableView!
-    var currentIndex:Int?
     let model = Model()
 
     override func viewDidLoad() {
@@ -29,7 +28,7 @@ class ViewController: UIViewController, UITableViewDelegate {
         if segue.destination is NoteViewController
         {
             let thisnote = segue.destination as? NoteViewController
-            thisnote?.noteData = model.notes[currentIndex!]
+            thisnote?.noteData = model.notes[model.currentIndex!]
         }
     }
 
@@ -70,7 +69,7 @@ class ViewController: UIViewController, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        currentIndex = indexPath.row
+        model.currentIndex = indexPath.row
         performSegue(withIdentifier: "noteSegue", sender: self)
     }
 
