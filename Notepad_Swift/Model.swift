@@ -27,7 +27,6 @@ class Model : NSObject
             UIApplication.shared.delegate as? AppDelegate else {
                 return
         }
-        
         managedContext = appDelegate.persistentContainer.viewContext
         
         let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Notes")
@@ -70,6 +69,15 @@ class Model : NSObject
     
     func updateNote(note: NSManagedObject, text: String) {
         note.setValue(text, forKeyPath: "note")
+        do {
+            try managedContext!.save()
+        } catch let error as NSError {
+            print("Could not save. \(error), \(error.userInfo)")
+        }
+    }
+    
+    func updateNoteTitle(note: NSManagedObject, title: String) {
+        note.setValue(title, forKeyPath: "name")
         do {
             try managedContext!.save()
         } catch let error as NSError {

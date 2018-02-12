@@ -17,12 +17,18 @@ class NoteViewController: UIViewController {
     var noteBody:String?
     @IBOutlet weak var textView: UITextView!
     var model: Model!
-
+    @IBOutlet weak var renameTextField: UITextField!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.refreshNote()
+    }
+    
+    func refreshNote() {
         noteTitle = noteData.value(forKeyPath: "name") as? String
         noteBody = noteData.value(forKeyPath: "note") as? String
         title = noteTitle
+        renameTextField.text = noteTitle
         textView.text = noteBody
     }
     
@@ -34,6 +40,10 @@ class NoteViewController: UIViewController {
         model.updateNote(note: noteData, text: textView.text)
     }
     
+    @IBAction func nameEditedLive(_ sender: UITextField) {
+        model.updateNoteTitle(note: noteData, title: renameTextField.text!)
+        refreshNote()
+    }
     
 }
 
