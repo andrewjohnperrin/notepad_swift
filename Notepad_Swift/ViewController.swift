@@ -31,6 +31,7 @@ class ViewController: UIViewController, UITableViewDelegate {
                 return
         }
         
+        
         managedContext = appDelegate.persistentContainer.viewContext
         
         let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Notes")
