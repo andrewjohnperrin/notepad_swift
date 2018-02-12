@@ -58,8 +58,17 @@ class Model : NSObject
     }
     
     func delete(index: Int) {
-        notes.remove(at: index)
         managedContext?.delete(notes[index])
+        notes.remove(at: index)
+        do {
+            try managedContext!.save()
+        } catch let error as NSError {
+            print("Could not save. \(error), \(error.userInfo)")
+        }
+    }
+    
+    func updateNote(note: NSManagedObject, text: String) {
+        note.setValue(text, forKeyPath: "note")
         do {
             try managedContext!.save()
         } catch let error as NSError {

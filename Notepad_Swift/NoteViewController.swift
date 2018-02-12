@@ -31,33 +31,7 @@ class NoteViewController: UIViewController {
     }
     
     func saveNote() {
-        guard let appDelegate =
-            UIApplication.shared.delegate as? AppDelegate else {
-                return
-        }
-        let managedContext = appDelegate.persistentContainer.viewContext
-        noteData.setValue(textView.text, forKeyPath: "note")
-        do {
-            try managedContext.save()
-        } catch let error as NSError {
-            print("Could not save. \(error), \(error.userInfo)")
-        }
-    }
-    @IBAction func deleteButtonPressed(_ sender: UIButton) {
-        guard let appDelegate =
-            UIApplication.shared.delegate as? AppDelegate else {
-                return
-        }
-        let managedContext = appDelegate.persistentContainer.viewContext
-        
-        managedContext.delete(noteData)
-        do {
-            try managedContext.save()
-            _ = navigationController?.popViewController(animated: true)
-
-        } catch let error as NSError {
-            print("Could not save. \(error), \(error.userInfo)")
-        }
+        model.updateNote(note: noteData, text: textView.text)
     }
 }
 

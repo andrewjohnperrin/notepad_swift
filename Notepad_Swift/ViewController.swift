@@ -10,11 +10,8 @@ import UIKit
 import CoreData
 
 class ViewController: UIViewController, UITableViewDelegate {
-
     @IBOutlet weak var tableView: UITableView!
-    var notes: [NSManagedObject] = []
     var currentIndex:Int?
-    var managedContext:NSManagedObjectContext?
     let model = Model()
 
     override func viewDidLoad() {
