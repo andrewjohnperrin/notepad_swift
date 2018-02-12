@@ -12,7 +12,7 @@ import CoreData
 class ViewController: UIViewController, UITableViewDelegate {
     @IBOutlet weak var tableView: UITableView!
     let model = Model()
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Notes"
@@ -29,6 +29,7 @@ class ViewController: UIViewController, UITableViewDelegate {
         {
             let thisnote = segue.destination as? NoteViewController
             thisnote?.noteData = model.notes[model.currentIndex!]
+            thisnote?.model = model
         }
     }
 

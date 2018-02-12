@@ -16,7 +16,7 @@ class NoteViewController: UIViewController {
     var noteTitle:String?
     var noteBody:String?
     @IBOutlet weak var textView: UITextView!
-    let model = Model()
+    var model: Model!
 
     override func viewDidLoad() {
         super.viewDidLoad()
