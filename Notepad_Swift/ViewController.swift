@@ -14,6 +14,7 @@ class ViewController: UIViewController, UITableViewDelegate {
     @IBOutlet weak var tableView: UITableView!
     var notes: [NSManagedObject] = []
     var currentIndex:Int?
+    var managedContext:NSManagedObjectContext?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,12 +30,12 @@ class ViewController: UIViewController, UITableViewDelegate {
                 return
         }
         
-        let managedContext = appDelegate.persistentContainer.viewContext
+        managedContext = appDelegate.persistentContainer.viewContext
         
         let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Notes")
         
         do {
-            notes = try managedContext.fetch(fetchRequest)
+            notes = try managedContext!.fetch(fetchRequest)
             self.tableView.reloadData()
         } 
         catch let error as NSError {
@@ -83,18 +84,11 @@ class ViewController: UIViewController, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            guard let appDelegate =
-                UIApplication.shared.delegate as? AppDelegate else {
-                    return
-            }
-            
-            let managedContext =
-                appDelegate.persistentContainer.viewContext
-                managedContext.delete(notes[indexPath.row])
+                managedContext!.delete(notes[indexPath.row])
                 notes.remove(at: indexPath.row)
                 tableView.deleteRows(at: [indexPath], with: .fade)
             do {
-                try managedContext.save()
+                try managedContext!.save()
             } catch let error as NSError {
                 print("Could not save. \(error), \(error.userInfo)")
             }
@@ -107,15 +101,7 @@ class ViewController: UIViewController, UITableViewDelegate {
     }
     
     func save(name: String) {
-        guard let appDelegate =
-            UIApplication.shared.delegate as? AppDelegate else {
-                return
-        }
-        
-        let managedContext =
-            appDelegate.persistentContainer.viewContext
-        
-        let entity = NSEntityDescription.entity(forEntityName: "Notes", in: managedContext)!
+        let entity = NSEntityDescription.entity(forEntityName: "Notes", in: managedContext!)!
         
         let note = NSManagedObject(entity: entity,
                                      insertInto: managedContext)
@@ -124,7 +110,7 @@ class ViewController: UIViewController, UITableViewDelegate {
         note.setValue("Enter Note Here", forKeyPath: "note")
 
         do {
-            try managedContext.save()
+            try managedContext!.save()
             notes.append(note)
         } catch let error as NSError {
             print("Could not save. \(error), \(error.userInfo)")
