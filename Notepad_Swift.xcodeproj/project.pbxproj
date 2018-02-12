@@ -15,6 +15,7 @@
 		A79D661C20311ADC00B808E8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A79D661A20311ADC00B808E8 /* LaunchScreen.storyboard */; };
 		A79D66242031272200B808E8 /* NoteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A79D66232031272200B808E8 /* NoteViewController.swift */; };
 		A79D66282031428500B808E8 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = A79D66272031428500B808E8 /* README.md */; };
+		A79D662A2031F18C00B808E8 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = A79D66292031F18C00B808E8 /* Model.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +29,7 @@
 		A79D661D20311ADC00B808E8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A79D66232031272200B808E8 /* NoteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteViewController.swift; sourceTree = "<group>"; };
 		A79D66272031428500B808E8 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
+		A79D66292031F18C00B808E8 /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,6 +64,7 @@
 			children = (
 				A79D660E20311ADC00B808E8 /* AppDelegate.swift */,
 				A79D661020311ADC00B808E8 /* ViewController.swift */,
+				A79D66292031F18C00B808E8 /* Model.swift */,
 				A79D66272031428500B808E8 /* README.md */,
 				A79D661220311ADC00B808E8 /* Main.storyboard */,
 				A79D66232031272200B808E8 /* NoteViewController.swift */,
@@ -146,6 +149,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A79D662A2031F18C00B808E8 /* Model.swift in Sources */,
 				A79D66242031272200B808E8 /* NoteViewController.swift in Sources */,
 				A79D661720311ADC00B808E8 /* Notepad_Swift.xcdatamodeld in Sources */,
 				A79D661120311ADC00B808E8 /* ViewController.swift in Sources */,
