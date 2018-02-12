@@ -67,6 +67,7 @@ class Model : NSObject
         }
     }
     
+    
     func updateNote(note: NSManagedObject, text: String) {
         note.setValue(text, forKeyPath: "note")
         do {
