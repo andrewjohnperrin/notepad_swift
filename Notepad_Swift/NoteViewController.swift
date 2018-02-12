@@ -16,11 +16,10 @@ class NoteViewController: UIViewController {
     var noteTitle:String?
     var noteBody:String?
     @IBOutlet weak var textView: UITextView!
+    let model = Model()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        print ("noteTitle is \(noteData)")
-        print("poopoo")
         noteTitle = noteData.value(forKeyPath: "name") as? String
         noteBody = noteData.value(forKeyPath: "note") as? String
         title = noteTitle
@@ -29,7 +28,6 @@ class NoteViewController: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         saveNote()
-        print("back")
     }
     
     func saveNote() {

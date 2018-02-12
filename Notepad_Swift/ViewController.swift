@@ -15,8 +15,8 @@ class ViewController: UIViewController, UITableViewDelegate {
     var notes: [NSManagedObject] = []
     var currentIndex:Int?
     var managedContext:NSManagedObjectContext?
+    let model = Model()
 
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Notes"
@@ -26,32 +26,13 @@ class ViewController: UIViewController, UITableViewDelegate {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        guard let appDelegate =
-            UIApplication.shared.delegate as? AppDelegate else {
-                return
-        }
-        
-        
-        managedContext = appDelegate.persistentContainer.viewContext
-        
-        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Notes")
-        
-        do {
-            notes = try managedContext!.fetch(fetchRequest)
-            self.tableView.reloadData()
-        } 
-        catch let error as NSError {
-            print("Could not fetch. \(error), \(error.userInfo)")
-        }
-        
-        
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.destination is NoteViewController
         {
             let thisnote = segue.destination as? NoteViewController
-            thisnote?.noteData = notes[currentIndex!]
+            thisnote?.noteData = model.notes[currentIndex!]
         }
     }
 
@@ -69,7 +50,7 @@ class ViewController: UIViewController, UITableViewDelegate {
                     return
             }
             
-            self.save(name: nameToSave)
+            self.model.save(name: nameToSave)
             self.tableView.reloadData()
         }
         
@@ -86,14 +67,8 @@ class ViewController: UIViewController, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-                managedContext!.delete(notes[indexPath.row])
-                notes.remove(at: indexPath.row)
+                model.delete(index: indexPath.row)
                 tableView.deleteRows(at: [indexPath], with: .fade)
-            do {
-                try managedContext!.save()
-            } catch let error as NSError {
-                print("Could not save. \(error), \(error.userInfo)")
-            }
         }
     }
     
@@ -101,34 +76,19 @@ class ViewController: UIViewController, UITableViewDelegate {
         currentIndex = indexPath.row
         performSegue(withIdentifier: "noteSegue", sender: self)
     }
-    
-    func save(name: String) {
-        let entity = NSEntityDescription.entity(forEntityName: "Notes", in: managedContext!)!
-        
-        let note = NSManagedObject(entity: entity,
-                                     insertInto: managedContext)
-        
-        note.setValue(name, forKeyPath: "name")
-        note.setValue("Enter Note Here", forKeyPath: "note")
 
-        do {
-            try managedContext!.save()
-            notes.append(note)
-        } catch let error as NSError {
-            print("Could not save. \(error), \(error.userInfo)")
-        }
-    }
 }
 
 extension ViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView,
                    numberOfRowsInSection section: Int) -> Int {
-        return notes.count
+        return model.notes.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-            let note = notes[indexPath.row]
+            let note = model.notes[indexPath.row]
+
             let cell =
                 tableView.dequeueReusableCell(withIdentifier: "Cell",
                                               for: indexPath)

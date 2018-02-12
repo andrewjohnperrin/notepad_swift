@@ -7,3 +7,66 @@
 //
 
 import Foundation
+import CoreData
+import UIKit
+
+class Model : NSObject
+{
+    var notes: [NSManagedObject] = []
+    var currentIndex:Int?
+    var managedContext:NSManagedObjectContext?
+    
+    override init() {
+        super.init()
+        print("model init")
+        fetchNotes()
+    }
+    
+    func fetchNotes(){
+        guard let appDelegate =
+            UIApplication.shared.delegate as? AppDelegate else {
+                return
+        }
+        managedContext = appDelegate.persistentContainer.viewContext
+        
+        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Notes")
+        
+        do {
+            notes = try managedContext!.fetch(fetchRequest)
+        }
+        catch let error as NSError {
+            print("Could not fetch. \(error), \(error.userInfo)")
+        }
+        
+    }
+    
+    func save(name: String) {
+        let entity = NSEntityDescription.entity(forEntityName: "Notes", in: managedContext!)!
+        
+        let note = NSManagedObject(entity: entity,
+                                   insertInto: managedContext)
+        
+        note.setValue(name, forKeyPath: "name")
+        note.setValue("Enter Note Here", forKeyPath: "note")
+        
+        do {
+            try managedContext!.save()
+            notes.append(note)
+        } catch let error as NSError {
+            print("Could not save. \(error), \(error.userInfo)")
+        }
+    }
+    
+    func delete(index: Int) {
+        notes.remove(at: index)
+        managedContext?.delete(notes[index])
+        do {
+            try managedContext!.save()
+        } catch let error as NSError {
+            print("Could not save. \(error), \(error.userInfo)")
+        }
+    }
+    
+}
+
+
