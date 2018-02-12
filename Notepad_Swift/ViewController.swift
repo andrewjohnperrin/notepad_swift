@@ -81,6 +81,26 @@ class ViewController: UIViewController, UITableViewDelegate {
         present(alert, animated: true)
     }
     
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            guard let appDelegate =
+                UIApplication.shared.delegate as? AppDelegate else {
+                    return
+            }
+            
+            let managedContext =
+                appDelegate.persistentContainer.viewContext
+                managedContext.delete(notes[indexPath.row])
+                notes.remove(at: indexPath.row)
+                tableView.deleteRows(at: [indexPath], with: .fade)
+            do {
+                try managedContext.save()
+            } catch let error as NSError {
+                print("Could not save. \(error), \(error.userInfo)")
+            }
+        }
+    }
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         currentIndex = indexPath.row
         performSegue(withIdentifier: "noteSegue", sender: self)
