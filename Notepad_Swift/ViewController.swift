@@ -15,6 +15,7 @@ class ViewController: UIViewController, UITableViewDelegate {
     var notes: [NSManagedObject] = []
     var currentIndex:Int?
     var managedContext:NSManagedObjectContext?
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
